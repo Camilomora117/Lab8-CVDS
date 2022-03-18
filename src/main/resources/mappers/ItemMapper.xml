@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemMapper">
+
+    <select parameterType="map" id="consultarItem" resultMap="ItemResult" >
+        select *
+        FROM VI_ITEMS
+        WHERE VI_ITEMS.id = #{item}
+    </select>
+
+    <resultMap type='Item' id='ItemResult'>
+        <id property='id' column='ID'/>
+        <result property='nombre' column='nombre'/>
+        <result property='descripcion' column='descripcion'/>
+        <result property='fechaLanzamiento' column='fechaLanzamiento'/>
+        <result property='tarifaxDia' column='tarifaxDia'/>
+        <result property='formatoRenta' column='formatoRenta'/>
+        <result property='genero' column='genero'/>
+        <association property="tipo" javaType="TipoItem" columnPrefix='tipoItem_'></association>
+    </resultMap>
+
+    <resultMap type='TipoItem' id="TipoItemResult">
+        <association property="tipoItem" javaType="TipoItem" columnPrefix='tipoItem_' resultMap='edu.eci.cvds.sampleprj.dao.mybatis.mappers.TipoItemMapper.TipoItemResult'></association>
+    </resultMap>
+
+    <resultMap type='ItemRentado' id="ItemRentadoResult">
+        <association property="itemRentado" javaType="ItemRentado" columnPrefix='itemRentado_' resultMap='edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemMapper.ItemResult'></association>
+    </resultMap>
+
+    <resultMap type='Cliente' id="ClienteResult">
+        <association property="cliente" javaType="Cliente" columnPrefix='cliente_' resultMap='edu.eci.cvds.sampleprj.dao.mybatis.mappers.ClienteMapper.ClienteResult'></association>
+    </resultMap>
+
+    <insert parameterType="map" id="insertarItem">
+        insert into VI_ITEMS (id,nombre,descripcion,fechalanzamiento,tarifaxdia,formatorenta,genero,TIPOITEM_id)
+        values (#{id},#{nombre},#{descripcion},#{fechal},#{tarifa},#{renta},#{genero},#{tipoItem})
+    </insert>
+
+    <insert id="agregarItemRentadoACliente" parameterType="map">
+        insert into VI_ITEMRENTADO(CLIENTES_documento, ITEMS_id, fechainiciorenta, fechafinrenta)
+        values (#{idcli},#{idit},#{fechai},#{fechaf})
+    </insert>
+
+</mapper>

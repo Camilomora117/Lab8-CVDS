@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemRentadoMapper">
+
+    <select parameterType="map" id="consultarItemRentado" resultMap="ItemRentadoResult" >
+        select *
+        FROM VI_ITEMRENTADO
+        WHERE VI_ITEMRENTADO.CLIENTES_documento = #{idcli} and VI_ITEMRENTADO.ITEMS_id = #{iditm}
+    </select>
+
+    <resultMap type='ItemRentado' id='ItemRentadoResult'>
+        <id property='id' column='id'/>
+        <result property='fechainiciorenta' column='fechainiciorenta'/>
+        <result property='fechafinrenta' column='fechafinrenta'/>
+        <association property="item" javaType="Item" columnPrefix='item_'></association>
+    </resultMap>
+
+    <resultMap type='Item' id="ItemResult">
+        <association property="item" javaType="Item" columnPrefix='item_' resultMap='edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemMapper.ItemResult'></association>
+    </resultMap>
+
+    <resultMap type='TipoItem' id="TipoItemResult">
+        <association property="tipoItem" javaType="TipoItem" columnPrefix='tipoItem_' resultMap='edu.eci.cvds.sampleprj.dao.mybatis.mappers.TipoItemMapper.TipoItemResult'></association>
+    </resultMap>
+
+    <resultMap type='Cliente' id="ClienteResult">
+        <association property="cliente" javaType="Cliente" columnPrefix='cliente_' resultMap='edu.eci.cvds.sampleprj.dao.mybatis.mappers.ClienteMapper.ClienteResult'></association>
+    </resultMap>
+
+</mapper>

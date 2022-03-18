@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="edu.eci.cvds.sampleprj.dao.mybatis.mappers.TipoItemMapper">
+    <resultMap type='TipoItem' id='TipoItemResult'>
+        <id property='id' column='id'/>
+        <result property='descripcion' column='descripcion'/>
+    </resultMap>
+
+    <resultMap type='Item' id="ItemResult">
+        <association property="item" javaType="Item" columnPrefix='item_' resultMap='edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemMapper.ItemResult'></association>
+    </resultMap>
+
+    <resultMap type='Cliente' id="ClienteResult">
+        <association property="cliente" javaType="Cliente" columnPrefix='cliente_' resultMap='edu.eci.cvds.sampleprj.dao.mybatis.mappers.ClienteMapper.ClienteResult'></association>
+    </resultMap>
+
+    <resultMap type='ItemRentado' id="ItemRentadoResult">
+        <association property="itemRentado" javaType="ItemRentado" columnPrefix='itemRentado_' resultMap='edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemMapper.ItemResult'></association>
+    </resultMap>
+
+</mapper>
