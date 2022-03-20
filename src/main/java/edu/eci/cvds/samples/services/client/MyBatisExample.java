@@ -71,8 +71,9 @@ public class MyBatisExample {
         SqlSessionFactory sessionfact = getSqlSessionFactory();
         SqlSession sqlss = sessionfact.openSession();
         ClienteMapper cm = sqlss.getMapper(ClienteMapper.class);
+        cm.insertarCliente(1000713817,"larfg","larfg","larfg","larfg",false);
         System.out.println(cm.consultarClientes());
-        System.out.println(cm.consultarCliente(1));
+        System.out.println(cm.consultarCliente(1000713816));
         //AGREGAMOS ITEM RENTADO
         SimpleDateFormat DateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date startDate = DateFormat.parse("2022/01/20");
