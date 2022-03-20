@@ -4,14 +4,15 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import edu.eci.cvds.sampleprj.dao.ClienteDAO;
 import edu.eci.cvds.sampleprj.dao.ItemDAO;
-import edu.eci.cvds.sampleprj.dao.excepciones.PersistenceException;
 
 import edu.eci.cvds.samples.entities.Cliente;
 import edu.eci.cvds.samples.entities.Item;
 import edu.eci.cvds.samples.entities.ItemRentado;
 import edu.eci.cvds.samples.entities.TipoItem;
-import edu.eci.cvds.samples.services.excepciones.ExcepcionServiciosAlquiler;
 import edu.eci.cvds.samples.services.ServiciosAlquiler;
+import edu.eci.cvds.samples.services.excepciones.ExcepcionServiciosAlquiler;
+import org.apache.ibatis.exceptions.PersistenceException;
+
 import java.sql.Date;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class ServiciosAlquilerImpl implements ServiciosAlquiler {
        try {
            return itemDAO.load(id);
        } catch (PersistenceException ex) {
-           throw new ExcepcionServiciosAlquiler("Error al consultar el item "+id,ex);
+           throw new ExcepcionServiciosAlquiler("Error al consultar el item "+id);
        }
    }
 

@@ -68,28 +68,37 @@ public class MyBatisExample {
      * @throws SQLException 
      */
     public static void main(String args[]) throws SQLException, ParseException {
+        /*
         SqlSessionFactory sessionfact = getSqlSessionFactory();
         SqlSession sqlss = sessionfact.openSession();
         ClienteMapper cm = sqlss.getMapper(ClienteMapper.class);
         cm.insertarCliente(1000713817,"larfg","larfg","larfg","larfg",false);
-        System.out.println(cm.consultarClientes());
+        //System.out.println(cm.consultarClientes());
         System.out.println(cm.consultarCliente(1000713816));
         //AGREGAMOS ITEM RENTADO
         SimpleDateFormat DateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date startDate = DateFormat.parse("2022/01/20");
         Date endDate = DateFormat.parse("2022/02/20");
         cm.agregarItemRentadoACliente(9, 20, startDate, endDate);
-        System.out.println(cm.consultarClientes());
+        //System.out.println(cm.consultarClientes());
         //CONSULTAMOS ITEM AGREGADO
         ItemRentadoMapper irm = sqlss.getMapper(ItemRentadoMapper.class);
         System.out.println("Item Rentado:" + irm.consultarItemRentado(9,20));
         //AGREGAMOS ITEM
         ItemMapper im = sqlss.getMapper(ItemMapper.class);
         Date dateItem = DateFormat.parse("2022/01/20");
-        im.insertarItem(780,"luis","Estudiante",dateItem,7000,"renta","Bichota",2);
+        im.insertarItem(787,"luis","Estudiante",dateItem,7000,"renta","Bichota",2);
         //CONSULTAR ITEM
         System.out.println("Item :" + im.consultarItem(780));
         //CLOSE
+        sqlss.commit();
+        sqlss.close();
+         */
+        SqlSessionFactory sessionfact = getSqlSessionFactory();
+        SqlSession sqlss = sessionfact.openSession();
+        ClienteMapper cm = sqlss.getMapper(ClienteMapper.class);
+        cm.insertarCliente(88,"larfg1","larfg1","larfg1","larfg1",false);
+        System.out.println(cm.consultarCliente(88));
         sqlss.commit();
         sqlss.close();
     }

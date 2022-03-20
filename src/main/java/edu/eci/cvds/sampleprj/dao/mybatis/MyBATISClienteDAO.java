@@ -19,7 +19,7 @@ public class MyBATISClienteDAO implements ClienteDAO {
     @Override
     public void save(Item it) throws PersistenceException {
         try{
-            itemMapper.insertarItem(id,nombre,descripcion,fechal,tarifa,renta,genero,tipoItem);
+            //itemMapper.insertarItem(id,nombre,descripcion,fechal,tarifa,renta,genero,tipoItem);
         }
         catch(org.apache.ibatis.exceptions.PersistenceException e){
             throw new PersistenceException("Error al registrar el item "+it.toString(),e);
@@ -30,7 +30,8 @@ public class MyBATISClienteDAO implements ClienteDAO {
     @Override
     public Item load(int id) throws PersistenceException {
         try{
-            return itemMapper.consultarItem(id);
+            //return itemMapper.consultarItem(id);
+            return null;
         }
         catch(org.apache.ibatis.exceptions.PersistenceException e){
             throw new PersistenceException("Error al consultar el item "+id,e);
