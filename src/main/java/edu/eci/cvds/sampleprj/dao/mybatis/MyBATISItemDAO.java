@@ -1,14 +1,14 @@
 package edu.eci.cvds.sampleprj.dao.mybatis;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import edu.eci.cvds.sampleprj.dao.ItemDAO;
-import edu.eci.cvds.sampleprj.dao.PersistenceException;
-import edu.eci.cvds.sampleprj.dao.mybatis.mappers.ClienteMapper;
-import edu.eci.cvds.samples.entities.Item;
 import edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemMapper;
+import edu.eci.cvds.samples.entities.Item;
 import edu.eci.cvds.samples.entities.TipoItem;
-import java.sql.SQLException;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.exceptions.PersistenceException;
+
+import java.util.Date;
 
 public class MyBATISItemDAO implements ItemDAO{
 
@@ -16,9 +16,17 @@ public class MyBATISItemDAO implements ItemDAO{
   private ItemMapper itemMapper;    
 
   @Override
-  public void save(Item it) throws PersistenceException{
+  public void save(Item it) throws PersistenceException {
   try{
-      itemMapper.insertarItem(it);
+      int id = it.getId();
+      String nombre = it.getNombre();
+      String descripcion = it.getDescripcion();
+      Date fechal = it.getFechaLanzamiento();
+      int tarifa = (int) it.getTarifaxDia();
+      String renta = it.getFormatoRenta();
+      String genero = it.getGenero();
+      int tipoItem = it.getCodigoTipo();
+      itemMapper.insertarItem(id,nombre,descripcion,fechal,tarifa,renta,genero,tipoItem);
   }
   catch(org.apache.ibatis.exceptions.PersistenceException e){
       throw new PersistenceException("Error al registrar el item "+it.toString(),e);

@@ -36,6 +36,9 @@ public class Item implements Serializable{
     public Item() {
     }
 
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
     public TipoItem getTipo() {
         return tipo;
@@ -109,8 +112,7 @@ public class Item implements Serializable{
     }
 
 
-    
-    
-    
-    
+    public int getCodigoTipo() {
+        return tipo.getID();
+    }
 }

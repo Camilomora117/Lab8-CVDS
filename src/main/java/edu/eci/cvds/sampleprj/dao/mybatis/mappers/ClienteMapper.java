@@ -13,6 +13,9 @@ import edu.eci.cvds.samples.entities.Cliente;
  * @author 2106913
  */
 public interface ClienteMapper {
+
+    public void insertarCliente(@Param("documento") int id, @Param("nombre") String nombre, @Param("telefono") String telefono
+            , @Param("direccion") String direccion,@Param("email") String email, @Param("vetado") Boolean vetado);
     
     public Cliente consultarCliente(@Param("idcli") int id);
     
