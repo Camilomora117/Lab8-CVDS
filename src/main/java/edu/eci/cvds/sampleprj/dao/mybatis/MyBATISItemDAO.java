@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.exceptions.PersistenceException;
 
 import java.util.Date;
+import java.util.List;
 
 public class MyBATISItemDAO implements ItemDAO{
 
@@ -45,4 +46,13 @@ public class MyBATISItemDAO implements ItemDAO{
 
   }
 
-  }
+    @Override
+    public List<Item> loadAll() throws PersistenceException {
+        try{
+            return itemMapper.consultarItems();
+        }
+        catch(org.apache.ibatis.exceptions.PersistenceException e){
+            throw new PersistenceException("Error al consultar los items",e);
+        }
+    }
+}

@@ -14,10 +14,10 @@ import edu.eci.cvds.samples.entities.Cliente;
  */
 public interface ClienteMapper {
 
-    public void insertarCliente(@Param("documento") int id, @Param("nombre") String nombre, @Param("telefono") String telefono
+    public void insertarCliente(@Param("documento") long id, @Param("nombre") String nombre, @Param("telefono") String telefono
             , @Param("direccion") String direccion,@Param("email") String email, @Param("vetado") Boolean vetado);
     
-    public Cliente consultarCliente(@Param("idcli") int id);
+    public Cliente consultarCliente(@Param("idcli") long id);
     
     /**
      * Registrar un nuevo item rentado asociado al cliente identificado
