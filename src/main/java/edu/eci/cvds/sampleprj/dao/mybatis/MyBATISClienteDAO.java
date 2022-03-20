@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.exceptions.PersistenceException;
 
 import java.util.Date;
+import java.util.List;
 
 public class MyBATISClienteDAO implements ClienteDAO {
 
@@ -34,7 +35,7 @@ public class MyBATISClienteDAO implements ClienteDAO {
     }
 
     @Override
-    public Cliente load(int documento) throws PersistenceException {
+    public Cliente load(long documento) throws PersistenceException {
         try{
             return clienteMapper.consultarCliente(documento);
         }
@@ -44,4 +45,13 @@ public class MyBATISClienteDAO implements ClienteDAO {
 
     }
 
+    @Override
+    public List<Cliente> loadAll() throws PersistenceException {
+        try{
+            return clienteMapper.consultarClientes();
+        }
+        catch(org.apache.ibatis.exceptions.PersistenceException e){
+            throw new PersistenceException("Error al consultar los clientes ",e);
+        }
+    }
 }

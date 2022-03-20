@@ -11,6 +11,11 @@
         WHERE VI_ITEMS.id = #{item}
     </select>
 
+    <select parameterType="map" id="consultarItems" resultMap="ItemResult">
+        select *
+        FROM VI_ITEMS
+    </select>
+
     <resultMap type='Item' id='ItemResult'>
         <id property='id' column='ID'/>
         <result property='nombre' column='nombre'/>

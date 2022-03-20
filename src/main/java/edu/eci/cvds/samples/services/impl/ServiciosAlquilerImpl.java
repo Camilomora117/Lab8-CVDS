@@ -14,6 +14,8 @@ import edu.eci.cvds.samples.services.excepciones.ExcepcionServiciosAlquiler;
 import org.apache.ibatis.exceptions.PersistenceException;
 
 import java.sql.Date;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
@@ -22,24 +24,47 @@ public class ServiciosAlquilerImpl implements ServiciosAlquiler {
    @Inject
    private ItemDAO itemDAO;
 
+   @Inject
+   private ClienteDAO clienteDAO;
+
    @Override
-   public int valorMultaRetrasoxDia(int itemId) {
-       throw new UnsupportedOperationException("Not supported yet.");
+   public int valorMultaRetrasoxDia(int itemId) throws ExcepcionServiciosAlquiler {
+       try {
+           return (int) itemDAO.load(itemId).getTarifaxDia();
+       }
+       catch (PersistenceException ex){
+           throw new ExcepcionServiciosAlquiler("Error al consultar el valor de multa del item"+itemId);
+       }
    }
 
    @Override
    public Cliente consultarCliente(long docu) throws ExcepcionServiciosAlquiler {
-       throw new UnsupportedOperationException("Not supported yet.");
+       try{
+           return clienteDAO.load(docu);
+       }
+       catch (PersistenceException ex) {
+           throw new ExcepcionServiciosAlquiler("Error al consultar el cliente"+docu);
+       }
    }
 
    @Override
    public List<ItemRentado> consultarItemsCliente(long idcliente) throws ExcepcionServiciosAlquiler {
-       throw new UnsupportedOperationException("Not supported yet.");
+       try{
+           return clienteDAO.load(idcliente).getRentados();
+       }
+       catch (PersistenceException ex) {
+           throw new ExcepcionServiciosAlquiler("Error al consultar los items rentados de el cliente"+idcliente);
+       }
    }
 
    @Override
    public List<Cliente> consultarClientes() throws ExcepcionServiciosAlquiler {
-       throw new UnsupportedOperationException("Not supported yet.");
+       try{
+           return clienteDAO.loadAll();
+       }
+       catch (PersistenceException ex) {
+           throw new ExcepcionServiciosAlquiler("Error al consultar los clientes");
+       }
    }
 
    @Override
@@ -52,13 +77,36 @@ public class ServiciosAlquilerImpl implements ServiciosAlquiler {
    }
 
    @Override
-   public List<Item> consultarItemsDisponibles() {
-       throw new UnsupportedOperationException("Not supported yet.");
+   public List<Item> consultarItemsDisponibles() throws ExcepcionServiciosAlquiler {
+       try {
+           return itemDAO.loadAll();
+       } catch (PersistenceException ex) {
+           throw new ExcepcionServiciosAlquiler("Error al consultar los items");
+       }
    }
 
    @Override
    public long consultarMultaAlquiler(int iditem, Date fechaDevolucion) throws ExcepcionServiciosAlquiler {
-       throw new UnsupportedOperationException("Not supported yet.");
+       try {
+           List<Cliente> clientes = consultarClientes();
+           for (int i=0 ; i<clientes.size() ; i++) {
+               ArrayList<ItemRentado> rentados = clientes.get(i).getRentados();
+               for (int j=0 ; j<rentados.size() ; j++) {
+                   if(null != rentados.get(j).getItem()){
+                       if (rentados.get(j).getItem().getId() == iditem) {
+                           long diasRetraso = ChronoUnit.DAYS.between(rentados.get(j).getFechafinrenta().toLocalDate(), fechaDevolucion.toLocalDate());
+                           if (diasRetraso < 0) {
+                               return 0;
+                           }
+                           return diasRetraso * valorMultaRetrasoxDia(rentados.get(j).getId());
+                       }
+                   }
+               }
+           }
+       } catch (Exception e) {
+           throw  new ExcepcionServiciosAlquiler("Error al consultar multa de item con id: "+iditem);
+       }
+       return iditem;
    }
 
    @Override
