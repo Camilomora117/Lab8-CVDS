@@ -90,4 +90,10 @@
         <association property="itemRentado" javaType="ItemRentado" columnPrefix='itemRentado_' resultMap='edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemMapper.ItemResult'></association>
     </resultMap>
 
+    <update id="vetarCliente" parameterType="map">
+        update VI_CLIENTES
+        set VI_CLIENTES.vetado = #{estado}
+        where VI_CLIENTES.id = #{idcli}
+    </update>
+
 </mapper>

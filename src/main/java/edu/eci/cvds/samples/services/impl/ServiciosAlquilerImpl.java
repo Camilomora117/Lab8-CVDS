@@ -13,6 +13,7 @@ import edu.eci.cvds.samples.entities.TipoItem;
 import edu.eci.cvds.samples.services.ServiciosAlquiler;
 import edu.eci.cvds.samples.services.excepciones.ExcepcionServiciosAlquiler;
 import org.apache.ibatis.exceptions.PersistenceException;
+import org.mybatis.guice.transactional.Transactional;
 
 import java.sql.Date;
 import java.time.temporal.ChronoUnit;
@@ -148,27 +149,56 @@ public class ServiciosAlquilerImpl implements ServiciosAlquiler {
        }
    }
 
+   @Transactional
    @Override
    public void registrarCliente(Cliente c) throws ExcepcionServiciosAlquiler {
-       throw new UnsupportedOperationException("Not supported yet.");
+       try {
+           clienteDAO.save(c);
+       } catch (Exception e) {
+           throw new UnsupportedOperationException(e.toString());
+       }
    }
 
    @Override
    public long consultarCostoAlquiler(int iditem, int numdias) throws ExcepcionServiciosAlquiler {
-       throw new UnsupportedOperationException("Not supported yet.");
+       try {
+           return numdias * itemDAO.load(iditem).getTarifaxDia();
+       } catch (Exception e) {
+           throw new UnsupportedOperationException("Error al consultar costo alquiler del item con id: "+iditem);
+       }
    }
 
+   @Transactional
    @Override
    public void actualizarTarifaItem(int id, long tarifa) throws ExcepcionServiciosAlquiler {
-       throw new UnsupportedOperationException("Not supported yet.");
+       try {
+           itemDAO.actualizarTarifaItem(id, tarifa);
+       } catch (Exception e) {
+           throw new UnsupportedOperationException("Error al actualizar tarifa item");
+       }
    }
+   @Transactional
    @Override
    public void registrarItem(Item i) throws ExcepcionServiciosAlquiler {
-       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       try {
+           itemDAO.save(i);
+       } catch (Exception e) {
+           throw new UnsupportedOperationException("Error al registrar el Item");
+       }
    }
 
+   @Transactional
    @Override
    public void vetarCliente(long docu, boolean estado) throws ExcepcionServiciosAlquiler {
-       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       try {
+           int estadoInt;
+           if(clienteDAO.load(docu)==null){
+               throw new UnsupportedOperationException("Cliente nulo");
+           }
+           if (estado){ estadoInt = 1; } else estadoInt = 0;
+           clienteDAO.vetarCliente((int) docu, estadoInt);
+       } catch (Exception e) {
+           throw new UnsupportedOperationException("No se pudo cambiar el estado de el cliente"+docu+" a "+estado);
+       }
    }
 }

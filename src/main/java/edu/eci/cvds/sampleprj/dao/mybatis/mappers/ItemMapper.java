@@ -27,4 +27,5 @@ public interface ItemMapper {
                              @Param("genero") String genero,
                              @Param("tipoItem") int tipoItem);
 
+    public void updateTarifa(@Param("id")int id,@Param("tarifa")int tarifa);
 }

@@ -38,4 +38,6 @@ public interface ClienteMapper {
      */
     public List<Cliente> consultarClientes();
 
+    public void vetarCliente(@Param("idcli") int id, @Param("estado") int estado);
+
 }

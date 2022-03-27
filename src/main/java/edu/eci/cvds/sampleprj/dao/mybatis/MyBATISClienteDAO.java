@@ -61,7 +61,17 @@ public class MyBATISClienteDAO implements ClienteDAO {
             clienteMapper.agregarItemRentadoACliente((int) docu,id,date,date1);
         }
         catch(org.apache.ibatis.exceptions.PersistenceException e){
-            throw new PersistenceException("Error al consultar los clientes ",e);
+            throw new PersistenceException("Error al guardar el item rentado",e);
+        }
+    }
+
+    @Override
+    public void vetarCliente(int id, int estado) {
+        try{
+            clienteMapper.vetarCliente(id,estado);
+        }
+        catch(org.apache.ibatis.exceptions.PersistenceException e){
+            throw new PersistenceException("Error al vetar los clientes",e);
         }
     }
 }
