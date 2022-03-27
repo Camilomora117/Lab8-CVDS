@@ -5,6 +5,7 @@ import com.google.inject.Singleton;
 import edu.eci.cvds.sampleprj.dao.ClienteDAO;
 import edu.eci.cvds.sampleprj.dao.ItemDAO;
 
+import edu.eci.cvds.sampleprj.dao.TipoItemDAO;
 import edu.eci.cvds.samples.entities.Cliente;
 import edu.eci.cvds.samples.entities.Item;
 import edu.eci.cvds.samples.entities.ItemRentado;
@@ -16,6 +17,7 @@ import org.apache.ibatis.exceptions.PersistenceException;
 import java.sql.Date;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @Singleton
@@ -26,6 +28,9 @@ public class ServiciosAlquilerImpl implements ServiciosAlquiler {
 
    @Inject
    private ClienteDAO clienteDAO;
+
+   @Inject
+   private TipoItemDAO tipoItemDAO;
 
    @Override
    public int valorMultaRetrasoxDia(int itemId) throws ExcepcionServiciosAlquiler {
@@ -111,17 +116,36 @@ public class ServiciosAlquilerImpl implements ServiciosAlquiler {
 
    @Override
    public TipoItem consultarTipoItem(int id) throws ExcepcionServiciosAlquiler {
-       throw new UnsupportedOperationException("Not supported yet.");
+       try{
+           return tipoItemDAO.load(id);
+       }
+       catch(Exception e){
+           throw new UnsupportedOperationException("Error al consultar el Tipo Item con id: "+id);
+       }
    }
 
    @Override
    public List<TipoItem> consultarTiposItem() throws ExcepcionServiciosAlquiler {
-       throw new UnsupportedOperationException("Not supported yet.");
+       try{
+           return tipoItemDAO.loadAll();
+       } catch(Exception e){
+           throw new UnsupportedOperationException("Error al consultar los Tipos Items");
+       }
    }
 
    @Override
    public void registrarAlquilerCliente(Date date, long docu, Item item, int numdias) throws ExcepcionServiciosAlquiler {
-       throw new UnsupportedOperationException("Not supported yet.");
+       try{
+           if(clienteDAO.load(docu)==null){
+               throw new ExcepcionServiciosAlquiler("El cliente es null Pa") ;
+           }
+           Calendar calendar = Calendar.getInstance();
+           calendar.setTime(date);
+           calendar.add(Calendar.DAY_OF_YEAR, numdias);
+           clienteDAO.saveItemRentadoCliente(docu,item.getId(),date,new java.sql.Date(calendar.getTime().getTime()));
+       }  catch (PersistenceException ex) {
+           throw new ExcepcionServiciosAlquiler("Error al agregar item rentado al cliente con id: " + docu);
+       }
    }
 
    @Override

@@ -97,7 +97,7 @@ public class MyBatisExample {
         SqlSessionFactory sessionfact = getSqlSessionFactory();
         SqlSession sqlss = sessionfact.openSession();
         ClienteMapper cm = sqlss.getMapper(ClienteMapper.class);
-        cm.insertarCliente(88,"larfg1","larfg1","larfg1","larfg1",false);
+        cm.insertarCliente(33,"larfg2","larfg1","larfg1","larfg2",false);
         System.out.println(cm.consultarCliente(88));
         sqlss.commit();
         sqlss.close();

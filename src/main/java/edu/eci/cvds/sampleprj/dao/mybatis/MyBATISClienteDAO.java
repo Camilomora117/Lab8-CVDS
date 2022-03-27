@@ -10,7 +10,7 @@ import edu.eci.cvds.samples.entities.TipoItem;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.exceptions.PersistenceException;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 public class MyBATISClienteDAO implements ClienteDAO {
@@ -49,6 +49,16 @@ public class MyBATISClienteDAO implements ClienteDAO {
     public List<Cliente> loadAll() throws PersistenceException {
         try{
             return clienteMapper.consultarClientes();
+        }
+        catch(org.apache.ibatis.exceptions.PersistenceException e){
+            throw new PersistenceException("Error al consultar los clientes ",e);
+        }
+    }
+
+    @Override
+    public void saveItemRentadoCliente(long docu, int id, Date date, Date date1) {
+        try{
+            clienteMapper.agregarItemRentadoACliente((int) docu,id,date,date1);
         }
         catch(org.apache.ibatis.exceptions.PersistenceException e){
             throw new PersistenceException("Error al consultar los clientes ",e);
