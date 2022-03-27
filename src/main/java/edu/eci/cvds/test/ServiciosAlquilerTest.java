@@ -1,5 +1,7 @@
 package edu.eci.cvds.test;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,7 +15,10 @@ import edu.eci.cvds.samples.entities.TipoItem;
 import edu.eci.cvds.samples.services.ServiciosAlquiler;
 import edu.eci.cvds.samples.services.ServiciosAlquilerFactory;
 import edu.eci.cvds.samples.services.excepciones.ExcepcionServiciosAlquiler;
+import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
@@ -22,8 +27,9 @@ import static org.junit.Assert.*;
 
 public class ServiciosAlquilerTest {
 
-    @Inject
+    //@Inject
     private SqlSession sqlSession;
+
 
     ServiciosAlquiler serviciosAlquiler;
 
@@ -33,6 +39,7 @@ public class ServiciosAlquilerTest {
 
     @Before
     public void setUp() {
+
     }
 
     @Test
